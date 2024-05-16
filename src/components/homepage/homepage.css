@@ -1,0 +1,108 @@
+  * {
+    margin: 0;
+    
+  }
+  .section-head {
+    width:  100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0px 40px 0px;
+   }
+   .heading {
+     max-width: 80%;
+     font-size: 44px;
+     font-weight: 800;
+     margin: 0;
+     line-height: 100%;
+   }
+   .title-discription {
+     width: 80%;
+     font-size: 14px;
+     font-weight: 400;
+     letter-spacing: .5px;
+     color: rgb(123, 123, 123);
+     opacity: 70%;
+     line-height: 160%;
+     margin: 0;
+   }
+   .cta-button {
+     height: 44px;
+     width: fit-content;
+     font-size: 18px;
+     color: white;
+     padding: 0px 24px 2px 24px;
+     background-color: rgb(76, 76, 174);
+     border-radius: 6px;
+     text-align: center;
+   }
+   .section-library {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     padding: 20px 0px;
+   }
+   .section-title {
+     font-size: 24px;
+     font-weight: 700;
+     max-width: 80%;
+     color: rgb(27, 27, 27);
+     
+   
+   }
+   .library-container {
+     width: 100%;
+     height: inherit;
+     margin: 20px 20px;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-evenly;
+     align-items: center;
+   }
+   .library-card {
+     width: 300px;
+     height: 260px;
+     border-radius: 12px;
+     background-color: rgb(255, 255, 255);
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: center;
+     padding: 10px;
+     gap: 6px;
+   
+     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.07);
+   }
+   .container-img {
+     overflow: hidden;
+     width: 100%;
+     height: 200px;
+     border-radius: 10px;
+   }
+   .img-card {
+     width: 100%;
+     object-fit: cover;
+   }
+   .music-container {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     gap: 12px;
+   }
+   .music-container p {
+     width: 100%;
+     text-align: left;
+     font-weight: 600;
+     margin: 0;
+   }
+   
+   .music-control{
+     width: 100%;
+    
+   }
+   
+   
