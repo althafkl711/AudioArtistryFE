@@ -3,17 +3,22 @@ import { MdCloudUpload, MdDelete } from 'react-icons/md';
 import { AiFillFileImage } from 'react-icons/ai';
 import './uploader.css';
 import exifr from 'exifr';
+import axios from '../../../api/axios';
 
 export default function TemplateDemo() {
     const [image, setImage] = useState("");
+    const [audioSrc, setAudioSrc] = useState(null);
     const [fileName, setFileName] = useState("No Selected File");
     const [isActive, setIsActive] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [uploading, setUploading] = useState(false);
 
     const handleFileChange = ({ target: { files } }) => {
+
+        // console.log("***************",files[0]);
         if (files && files[0]) {
             setFileName(files[0].name);
-            setImage(URL.createObjectURL(files[0]));
+            setImage(files[0]);
 
             // Check for GEO Location data in EXIF
             checkForGeoLocation(files[0]);
@@ -33,7 +38,7 @@ export default function TemplateDemo() {
             } else {
                 // If no GPS information is found, set isActive to false and show error message
                 setIsActive(false);
-                setErrorMessage("Uploaded image doesn't have ocation information.");
+                setErrorMessage("Uploaded image doesn't have location information.");
             }
         } catch (error) {
             // Handle any errors that occur during EXIF parsing
@@ -42,6 +47,39 @@ export default function TemplateDemo() {
             setErrorMessage("Error parsing EXIF data. Please try again.");
         }
     };
+
+    const handleSubmit = async () => {
+        setUploading(true);
+        try {
+            const formData = new FormData();
+            formData.append('image', image);
+            // Assuming 'apiEndpoint' is your API endpoint
+            const response = await axios.post('api/music/saveimage/',formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Adjust the content type based on your API's requirements  
+                },responseType: 'blob', 
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'audio/mpeg' }));
+            setAudioSrc(url);
+
+            console.log("-----------------",response);
+
+            if (response) {
+                // Handle success
+                console.log('Image uploaded successfully');
+            } else {
+                // Handle error
+                console.error('Image upload failed:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network or other errors
+            console.error('Error uploading image:', error);
+        } finally {
+            setUploading(false);
+        }
+    };
+    console.log("&&&&",audioSrc);
+
 
     return (
         <div className="upload-container">
@@ -61,8 +99,6 @@ export default function TemplateDemo() {
                         <p>Browse file to upload.</p>
                     </>
                 )}
-
-                
             </form>
             <div className="file-name-section">
                 <div className="file-name-container">
@@ -82,14 +118,22 @@ export default function TemplateDemo() {
                 </div>
             </div>
             <div className="button-convert-container">
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <button
                     className="button-convert"
                     style={{ backgroundColor: isActive ? 'green' : 'gray', color: 'white', padding: '12px 20px', border: 'none', cursor: 'pointer' }}
-                    disabled={!isActive}
+                    disabled={!isActive || uploading}
+                    onClick={handleSubmit}
                 >
-                    {isActive ? 'Convert my pic to music' : 'Convert my pic to music'}
+                    {uploading ? 'Uploading...' : 'Convert my pic to music'}
                 </button>
+
+                
+                <audio controls>
+                    <source src={audioSrc} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                </audio>
+    
             </div>
         </div>
     );
